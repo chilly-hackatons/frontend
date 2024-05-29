@@ -1,3 +1,5 @@
+import './global.css'
+
 import { WrapperComposer } from '@/shared/lib/ProviderList'
 
 import { AppRouter, ErrorBoundary, RouterWrapper } from './providers'
