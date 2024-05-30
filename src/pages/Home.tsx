@@ -1,5 +1,3 @@
-import { Button } from '@/shared/ui/button'
-
 const Home = () => {
   return <>Home</>
 }

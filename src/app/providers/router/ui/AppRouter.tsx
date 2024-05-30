@@ -6,9 +6,9 @@ import { routeConfig } from '../config'
 export const AppRouter = () => {
   const location = useLocation()
 
-  // useLayoutEffect(() => {
-  //   document.documentElement.scrollTo(0, 0)
-  // }, [location.pathname])
+  useLayoutEffect(() => {
+    document.documentElement.scrollTo(0, 0)
+  }, [location.pathname])
 
   return (
     <>
