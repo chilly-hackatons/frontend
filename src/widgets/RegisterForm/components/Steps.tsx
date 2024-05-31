@@ -1,36 +1,41 @@
-import { useSignUp } from '@/pages/SignUp/SignUpContext'
+import { useSignUpContext } from '@/pages/SignUp/SignUpContext'
 import { CandidateSecondForm } from '@/widgets/RegisterForm/components/CandidateSecondForm'
 import { FinalForm } from '@/widgets/RegisterForm/components/FinalForm'
 import { FirstForm } from '@/widgets/RegisterForm/components/FirstForm'
 import { RecruiterSecondForm } from '@/widgets/RegisterForm/components/RecruiterSecondForm'
-import { RegistrationForm } from '@/widgets/RegisterForm/RegistrationForm'
+import { useStepper } from '@/widgets/RegisterForm/context/RegisterFormStepperContext'
 
 export const Steps = () => {
-  const { user } = useSignUp()
+  const { user } = useSignUpContext()
+  const { activeStep } = useStepper()
 
-  const isCandidate = user.user_type === 'candidate'
+  const isCandidate = user.user_type === 'APPLICANT'
 
   return (
-    <RegistrationForm>
-      <div>
-        <FirstForm />
-      </div>
+    <div>
+      {activeStep === 0 && (
+        <div>
+          <FirstForm />
+        </div>
+      )}
 
-      {isCandidate && (
+      {activeStep === 1 && isCandidate && (
         <div>
           <CandidateSecondForm />
         </div>
       )}
 
-      {!isCandidate && (
+      {activeStep === 1 && !isCandidate && (
         <div>
           <RecruiterSecondForm />
         </div>
       )}
 
-      <div>
-        <FinalForm />
-      </div>
-    </RegistrationForm>
+      {activeStep === 2 && (
+        <div>
+          <FinalForm />
+        </div>
+      )}
+    </div>
   )
 }

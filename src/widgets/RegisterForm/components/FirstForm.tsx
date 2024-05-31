@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { z } from 'zod'
 
 import { RoutePath } from '@/app/providers/router/config'
-import { useSignUp } from '@/pages/SignUp/SignUpContext'
+import { useSignUpContext } from '@/pages/SignUp/SignUpContext'
 import { Button } from '@/shared/ui/button'
 import {
   Card,
@@ -57,7 +57,7 @@ const formSchema = z
     repeat_password: z.string().min(6, {
       message: 'Пароль должен содержать не менее 6 символов.',
     }),
-    user_type: z.enum(['candidate', 'recruiter'], {
+    user_type: z.enum(['APPLICANT', 'RECRUITER'], {
       required_error: 'Обязательное поле',
     }),
   })
@@ -68,7 +68,7 @@ const formSchema = z
 
 export const FirstForm = () => {
   const { nextStep } = useStepper()
-  const { updateUser, user } = useSignUp()
+  const { updateUser, user } = useSignUpContext()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -206,7 +206,7 @@ export const FirstForm = () => {
                         >
                           <FormItem className="flex items-center space-x-3 space-y-0">
                             <FormControl>
-                              <RadioGroupItem value="candidate" />
+                              <RadioGroupItem value="APPLICANT" />
                             </FormControl>
                             <FormLabel className="font-normal cursor-pointer">
                               Соискатель 👨🏼‍💻
@@ -214,7 +214,7 @@ export const FirstForm = () => {
                           </FormItem>
                           <FormItem className="flex items-center space-x-3 space-y-0">
                             <FormControl>
-                              <RadioGroupItem value="recruiter" />
+                              <RadioGroupItem value="RECRUITER" />
                             </FormControl>
                             <FormLabel className="font-normal cursor-pointer">
                               Рекрутер 🕵🏻‍♀️

@@ -1,15 +1,8 @@
-import {
-  createContext,
-  ReactElement,
-  ReactNode,
-  useContext,
-  useState,
-} from 'react'
+import { createContext, ReactNode, useContext, useState } from 'react'
 
 interface StepperContextProps {
   activeStep: number
   initialStep: number
-  steps: Array<ReactElement>
 }
 
 export const StepperContext = createContext<
@@ -22,7 +15,6 @@ export const StepperContext = createContext<
 >({
   activeStep: 0,
   initialStep: 0,
-  steps: [],
   nextStep: () => {},
   prevStep: () => {},
   setStep: () => {},

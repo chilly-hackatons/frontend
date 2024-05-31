@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from 'react'
 
-type UserType = 'candidate' | 'recruiter'
+import { UserType } from '@/entities/auth/dto'
+
 type UserContextWithFunctions = User & {
   logUser: () => void
   updateUser: (data: any) => void
@@ -53,7 +54,7 @@ export const SignUpProvider = ({ children }: SignUpProviderProps) => {
   )
 }
 
-export const useSignUp = () => {
+export const useSignUpContext = () => {
   const context = useContext(SignUpContext)
 
   if (!context) {

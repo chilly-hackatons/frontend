@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
-import { useSignUp } from '@/pages/SignUp/SignUpContext'
+import { useSignUpContext } from '@/pages/SignUp/SignUpContext'
+import { useSignUp } from '@/shared/hooks/useSignUp'
 import { Button } from '@/shared/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card'
 import { Checkbox } from '@/shared/ui/checkbox'
@@ -10,7 +11,14 @@ export const FinalForm = () => {
   const [isAgree, setAgree] = useState(false)
 
   const { prevStep } = useStepper()
-  const { user } = useSignUp()
+  const { user } = useSignUpContext()
+
+  const { isLoading, signUpUser } = useSignUp()
+
+  const signUpSubmit = () => {
+    signUpUser(user)
+    localStorage.removeItem('user')
+  }
 
   return (
     <div className="h-screen flex flex-col justify-center">
@@ -36,7 +44,7 @@ export const FinalForm = () => {
 
       <div className="flex gap-4 justify-between p-4 w-full">
         <Button onClick={prevStep}>Назад</Button>
-        <Button disabled={!isAgree} onClick={() => console.log(user)}>
+        <Button loading={isLoading} disabled={!isAgree} onClick={signUpSubmit}>
           Зарегистрироваться
         </Button>
       </div>

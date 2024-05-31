@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { useSignUp } from '@/pages/SignUp/SignUpContext'
+import { useSignUpContext } from '@/pages/SignUp/SignUpContext'
 import { Button } from '@/shared/ui/button'
 import {
   Card,
@@ -53,7 +53,7 @@ const defaultValues = {
 export const RecruiterSecondForm = () => {
   const { prevStep, nextStep } = useStepper()
 
-  const { updateUser, user } = useSignUp()
+  const { updateUser, user } = useSignUpContext()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
