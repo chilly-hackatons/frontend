@@ -15,7 +15,6 @@ import { urlApi } from '@/shared/lib/baseApi'
 interface AuthContextProps {
   user: UserDto | null
   isAuthenticated: boolean
-  loading: boolean
   checkAuthUser: () => Promise<void>
   handleAuth: () => void
   handleUser: (user: any) => void
@@ -32,7 +31,6 @@ interface AuthProviderProps {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<UserDto | null>(null)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [loading, setLoading] = useState(true)
 
   const navigate = useNavigate()
 
@@ -79,7 +77,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       value={{
         user,
         isAuthenticated,
-        loading,
         checkAuthUser,
         handleAuth,
         handleUser,

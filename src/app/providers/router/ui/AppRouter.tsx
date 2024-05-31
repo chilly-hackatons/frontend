@@ -1,5 +1,5 @@
 import { Suspense, useLayoutEffect } from 'react'
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 
 import { routeConfig } from '../config'
 
