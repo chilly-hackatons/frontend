@@ -18,6 +18,7 @@ interface AuthContextProps {
   checkAuthUser: () => Promise<void>
   handleAuth: () => void
   handleUser: (user: any) => void
+  logout: () => void
 }
 
 export const AuthContext = createContext<AuthContextProps | undefined>(
@@ -40,6 +41,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const handleUser = (user: any) => {
     setUser(user)
+  }
+
+  const logout = () => {
+    localStorage.removeItem('token')
+    setIsAuthenticated(false)
+    navigate(RoutePath.signIn)
   }
 
   const checkAuthUser = async () => {
@@ -80,6 +87,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         checkAuthUser,
         handleAuth,
         handleUser,
+        logout,
       }}
     >
       {children}
@@ -94,7 +102,21 @@ export const useAuthUser = () => {
     throw new Error('useAuthUser must be used within an AuthProvider')
   }
 
-  const { checkAuthUser, user, isAuthenticated, handleAuth, handleUser } = auth
+  const {
+    checkAuthUser,
+    user,
+    isAuthenticated,
+    handleAuth,
+    handleUser,
+    logout,
+  } = auth
 
-  return { checkAuthUser, user, isAuthenticated, handleAuth, handleUser }
+  return {
+    checkAuthUser,
+    user,
+    isAuthenticated,
+    handleAuth,
+    handleUser,
+    logout,
+  }
 }

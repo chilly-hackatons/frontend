@@ -15,6 +15,7 @@ module.exports = {
       },
     },
     extend: {
+      container: "max-w-7xl mx-auto",
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
