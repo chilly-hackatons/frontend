@@ -54,7 +54,7 @@ export const ProfileForm = ({ user, formSchema }: ProfileFormProps) => {
 
   return (
     <div className="py-4 border-t">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center max-w-[70%] mb-4">
         <h2 className="scroll-m-20 pb-2 text-xl font-semibold tracking-wide first:mt-0 ">
           Персональная информация
         </h2>
