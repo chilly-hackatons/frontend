@@ -1,9 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Save } from 'lucide-react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
+import { useAuthUser } from '@/app/providers/auth'
 import { UserDto } from '@/entities/auth/dto'
+import { OPTIONS } from '@/pages/SignUp/SignUp'
+import { baseApi } from '@/shared/lib/baseApi'
 import { Button } from '@/shared/ui/button'
 import {
   Form,
@@ -14,42 +18,17 @@ import {
   FormMessage,
 } from '@/shared/ui/form'
 import { Input } from '@/shared/ui/input'
+import { MultipleSelector } from '@/shared/ui/multi-select'
 import { Textarea } from '@/shared/ui/textarea'
 
 interface ProfileFormProps {
   user: UserDto
+  formSchema: z.Schema
 }
 
-const formSchema = z.object({
-  firstName: z
-    .string()
-    .min(2, {
-      message: 'Имя должно содержать не менее 2 символов.',
-    })
-    .max(50),
-  lastName: z.string().min(2, {
-    message: 'Фамилия должно содержать не менее 2 символов',
-  }),
-  patronymic: z.string().min(2, {
-    message: 'Отчество должно содержать не менее 2 символов',
-  }),
-  email: z.string().email({
-    message: 'Неверный адрес электронной почты.',
-  }),
-  companyName: z.string().min(2, {
-    message: 'Название компании должно содержать не менее 2 символов',
-  }),
-  about: z
-    .string({
-      required_error: 'Обязательное поле',
-    })
-    .min(50, {
-      message: 'Должно быть не менее 50 символов',
-    })
-    .max(450),
-})
-
-export const ProfileForm = ({ user }: ProfileFormProps) => {
+export const ProfileForm = ({ user, formSchema }: ProfileFormProps) => {
+  const { handleUser } = useAuthUser()
+  const [isLoading, setLoading] = useState(false)
   const isRecruiter = user.type === 'RECRUITER'
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -57,10 +36,17 @@ export const ProfileForm = ({ user }: ProfileFormProps) => {
     defaultValues: user,
   })
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const userProfile = { ...values, userType: user.type }
+    setLoading(true)
+    try {
+      const response = await baseApi.patch(`/profile/${user.id}`, userProfile)
+      handleUser(response.data)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -70,7 +56,7 @@ export const ProfileForm = ({ user }: ProfileFormProps) => {
           Персональная информация
         </h2>
 
-        <Button onClick={form.handleSubmit(onSubmit)}>
+        <Button loading={isLoading} onClick={form.handleSubmit(onSubmit)}>
           <Save className="mr-2 h-4 w-4" />
           Сохранить
         </Button>
@@ -147,7 +133,45 @@ export const ProfileForm = ({ user }: ProfileFormProps) => {
               />
             )}
 
-            <div />
+            {!isRecruiter && (
+              <FormField
+                control={form.control}
+                name="gitHubLink"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>GitHub</FormLabel>
+                    <FormControl>
+                      <Input defaultValue={user.gitHubLink} {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+
+            {!isRecruiter && (
+              <FormField
+                control={form.control}
+                name="skills"
+                render={({ field }) => (
+                  <FormItem className="col-span-2">
+                    <FormLabel>Технологии</FormLabel>
+                    <FormControl>
+                      <MultipleSelector
+                        {...field}
+                        inputProps={{
+                          id: 'multiple-selector',
+                        }}
+                        defaultOptions={OPTIONS}
+                        isFullWidth
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+
             <FormField
               control={form.control}
               name="about"

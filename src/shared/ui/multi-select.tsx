@@ -74,6 +74,8 @@ interface MultipleSelectorProps {
     React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>,
     'value' | 'placeholder' | 'disabled'
   >
+
+  isFullWidth?: boolean
 }
 
 export interface MultipleSelectorRef {
@@ -192,6 +194,7 @@ export const MultipleSelector = React.forwardRef<
       triggerSearchOnFocus = false,
       commandProps,
       inputProps,
+      isFullWidth,
     }: MultipleSelectorProps,
     ref: React.Ref<MultipleSelectorRef>,
   ) => {
@@ -372,7 +375,7 @@ export const MultipleSelector = React.forwardRef<
           commandProps?.onKeyDown?.(e)
         }}
         className={cn(
-          'h-auto overflow-visible bg-transparent max-w-[335px]',
+          `h-auto overflow-visible bg-transparent max-w-[${isFullWidth ? '100%' : '335px'}]`,
           commandProps?.className,
         )}
         shouldFilter={
@@ -384,7 +387,7 @@ export const MultipleSelector = React.forwardRef<
       >
         <div
           className={cn(
-            'min-h-10 max-w-[335px] rounded-md border border-input text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2',
+            `min-h-${isFullWidth ? '20' : '10'} max-w-[${isFullWidth ? '100%' : '335px'}] rounded-md border border-input text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2`,
             {
               'px-3 py-2': selected.length > 0,
               'cursor-text': !disabled && selected.length > 0,

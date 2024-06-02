@@ -1,5 +1,10 @@
 export type UserType = 'APPLICANT' | 'RECRUITER'
 
+interface Option {
+  label: string
+  value: string
+}
+
 export interface UserDto {
   id: number
   email: string
@@ -9,8 +14,8 @@ export interface UserDto {
   about: string
   avatar: string | null
   jobExperience: []
-  github?: string
-  skills?: string[]
+  gitHubLink?: string
+  skills?: Option[]
   companyName?: string
   type: UserType
   createdAt: string
