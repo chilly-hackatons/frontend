@@ -20,6 +20,7 @@ import {
 import { Input } from '@/shared/ui/input'
 import { MultipleSelector } from '@/shared/ui/multi-select'
 import { Textarea } from '@/shared/ui/textarea'
+import { JobExpirience } from '@/widgets/ProfileForm/JobExpirience'
 
 interface ProfileFormProps {
   user: UserDto
@@ -35,6 +36,8 @@ export const ProfileForm = ({ user, formSchema }: ProfileFormProps) => {
     resolver: zodResolver(formSchema),
     defaultValues: user,
   })
+
+  const isTouchedForm = Object.values(form.formState.touchedFields).length === 0
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const userProfile = { ...values, userType: user.type }
@@ -56,7 +59,11 @@ export const ProfileForm = ({ user, formSchema }: ProfileFormProps) => {
           Персональная информация
         </h2>
 
-        <Button loading={isLoading} onClick={form.handleSubmit(onSubmit)}>
+        <Button
+          disabled={isTouchedForm}
+          loading={isLoading}
+          onClick={form.handleSubmit(onSubmit)}
+        >
           <Save className="mr-2 h-4 w-4" />
           Сохранить
         </Button>
@@ -188,7 +195,12 @@ export const ProfileForm = ({ user, formSchema }: ProfileFormProps) => {
           </form>
         </Form>
 
-        <div />
+        <div className="flex flex-col gap-4 flex-[0_1_30%]">
+          <h2 className="scroll-m-20 pb-2 text-xl font-semibold tracking-wide first:mt-0 ">
+            Опыт работы
+          </h2>
+          <JobExpirience />
+        </div>
       </div>
     </div>
   )
