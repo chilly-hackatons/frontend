@@ -15,6 +15,7 @@ import { urlApi } from '@/shared/lib/baseApi'
 interface AuthContextProps {
   user: UserDto | null
   isAuthenticated: boolean
+  isLoading: boolean
   checkAuthUser: () => Promise<void>
   handleAuth: () => void
   handleUser: (user: any) => void
@@ -32,6 +33,7 @@ interface AuthProviderProps {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<UserDto | null>(null)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isLoading, setLoading] = useState(false)
 
   const navigate = useNavigate()
 
@@ -50,6 +52,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }
 
   const checkAuthUser = async () => {
+    setLoading(true)
     try {
       const response = await axios.post<RefereshTokenDto>(
         `${urlApi}/auth/refresh`,
@@ -68,6 +71,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       navigate(RoutePath.signIn)
       setUser(null)
       setIsAuthenticated(false)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -83,6 +88,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     <AuthContext.Provider
       value={{
         user,
+        isLoading,
         isAuthenticated,
         checkAuthUser,
         handleAuth,
@@ -109,6 +115,7 @@ export const useAuthUser = () => {
     handleAuth,
     handleUser,
     logout,
+    isLoading,
   } = auth
 
   return {
@@ -117,6 +124,7 @@ export const useAuthUser = () => {
     isAuthenticated,
     handleAuth,
     handleUser,
+    isLoading,
     logout,
   }
 }

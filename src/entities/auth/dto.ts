@@ -9,6 +9,9 @@ export interface UserDto {
   about: string
   avatar: string | null
   jobExperience: []
+  github?: string
+  skills?: string[]
+  companyName?: string
   type: UserType
   createdAt: string
 }

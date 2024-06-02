@@ -16,6 +16,10 @@ module.exports = {
     },
     extend: {
       container: "max-w-7xl mx-auto",
+       gridTemplateColumns: {
+        homePosts: 'repeat(auto-fit, minmax(300px, 1fr))',
+        profile: 'repeat(auto-fit, minmax(250px, 1fr))',
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -72,5 +76,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("tailwindcss-animated")],
 }

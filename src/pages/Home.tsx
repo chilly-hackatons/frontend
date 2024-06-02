@@ -1,5 +1,5 @@
 const Home = () => {
-  return <div className="container p-4">Home</div>
+  return <div className="container p-4 flex animate-fade">posts</div>
 }
 
 // eslint-disable-next-line import/no-default-export

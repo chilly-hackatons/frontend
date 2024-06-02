@@ -1,4 +1,7 @@
+import { Link } from 'react-router-dom'
+
 import { useAuthUser } from '@/app/providers/auth'
+import { RoutePath } from '@/app/providers/router/config'
 import { userType } from '@/shared/lib/user-type'
 import {
   DropdownMenu,
@@ -24,7 +27,9 @@ export const HeaderProfileInfo = () => {
           <UserAvatar />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem>Профиль</DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link to={RoutePath.profile}>Профиль</Link>
+          </DropdownMenuItem>
           <DropdownMenuItem onClick={logout}>Выйти</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

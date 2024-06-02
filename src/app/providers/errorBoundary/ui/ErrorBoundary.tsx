@@ -2,6 +2,7 @@ import { Component, ErrorInfo, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 
 import { ProviderProps } from '@/shared/types'
+import { Button } from '@/shared/ui/button'
 
 interface ErrorBoundaryProps {
   children: ReactNode
@@ -42,6 +43,9 @@ export class ErrorBoundaryComponent extends Component<
           <h1>🛠️ Error 🛠️</h1>
           <h2>{error?.message}</h2>
           <Link to="/">Вернуться на главную</Link>
+          <Button onClick={() => window.location.reload()}>
+            Перегрузить страницу
+          </Button>
         </div>
       )
     }
