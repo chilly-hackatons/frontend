@@ -20,6 +20,7 @@ import {
 import { Input } from '@/shared/ui/input'
 import { MultipleSelector } from '@/shared/ui/multi-select'
 import { Textarea } from '@/shared/ui/textarea'
+import { toast } from '@/shared/ui/use-toast'
 import { JobExpirience } from '@/widgets/ProfileForm/JobExpirience'
 
 interface ProfileFormProps {
@@ -45,6 +46,10 @@ export const ProfileForm = ({ user, formSchema }: ProfileFormProps) => {
     try {
       const response = await baseApi.patch(`/profile/${user.id}`, userProfile)
       handleUser(response.data)
+      toast({
+        title: 'Профиль обновлен',
+        description: 'Ваши данные были успешно обновлены',
+      })
     } catch (error) {
       console.log(error)
     } finally {
