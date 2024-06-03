@@ -82,7 +82,7 @@ const Profile = () => {
   }
 
   if (!user) {
-    return <>1</>
+    return <>User not found</>
   }
 
   return (

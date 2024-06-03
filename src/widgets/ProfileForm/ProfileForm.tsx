@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Save } from 'lucide-react'
+import { Save, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -10,6 +10,7 @@ import { UserDto } from '@/entities/auth/dto'
 import { OPTIONS } from '@/pages/SignUp/SignUp'
 import { baseApi } from '@/shared/lib/baseApi'
 import { calculateDateDifference } from '@/shared/lib/calculateDateDifference'
+import { calculateTotalExperience } from '@/shared/lib/calculateTotalExperience'
 import { Button } from '@/shared/ui/button'
 import {
   Card,
@@ -63,6 +64,21 @@ export const ProfileForm = ({ user, formSchema }: ProfileFormProps) => {
       console.log(error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const removeJobExperience = async (jobTitle: string) => {
+    const data = { companyTitle: jobTitle }
+    try {
+      const response = await baseApi.patch(`/job-delete/${user.id}`, data)
+      console.log(response.data)
+      handleUser(response.data)
+      toast({
+        title: 'Место работы удалено',
+        description: 'Ваши данные о работе были успешно удалены',
+      })
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -210,25 +226,41 @@ export const ProfileForm = ({ user, formSchema }: ProfileFormProps) => {
         </Form>
 
         <div className="flex flex-col gap-4 flex-[0_1_30%]">
-          <h2 className="scroll-m-20 pb-2 text-xl font-semibold tracking-wide first:mt-0 ">
-            Опыт работы
-          </h2>
+          <div className="flex items-center justify-between pb-2">
+            <h2 className="scroll-m-20 text-xl font-semibold tracking-wide first:mt-0 ">
+              Опыт работы
+            </h2>
+            <p className="leading-7">
+              {calculateTotalExperience(user.jobExperience)}
+            </p>
+          </div>
+
           <JobExpirience user={user} />
 
           {user.jobExperience.map((job) => (
             <Card
               key={job.companyTitle}
-              className="max-w-[550px] transition-all hover:bg-accent cursor-pointer"
+              className="max-w-[405px] transition-all hover:bg-accent cursor-pointer"
               bordered
             >
               <CardHeader>
-                <CardTitle>{job.companyTitle}</CardTitle>
+                <CardTitle className="flex justify-between items-center">
+                  {job.companyTitle}
+                  <Button
+                    onClick={() => removeJobExperience(job.companyTitle)}
+                    size="icon"
+                    variant="ghost"
+                    className="ml-2 transition-all hover:bg-slate-200 cursor-pointer"
+                  >
+                    <Trash2 />
+                  </Button>
+                </CardTitle>
                 <CardDescription>
                   {calculateDateDifference(job.date.from, job.date.to)}
                 </CardDescription>
               </CardHeader>
               <CardContent className="line-clamp-4 ">
-                {job.aboutWork.slice(0, 100) + '...'}
+                {job.aboutWork.slice(0, 50) + '...'}
               </CardContent>
             </Card>
           ))}
