@@ -1,13 +1,7 @@
 /* eslint-disable max-lines */
 
-import {
-  CheckIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-} from '@radix-ui/react-icons'
+import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
 import { type FC, useEffect, useRef, useState } from 'react'
-
-import { cn } from '@/lib/utils'
 
 import { Button } from './button'
 import { Calendar } from './calendar'
@@ -286,31 +280,6 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
   useEffect(() => {
     checkPreset()
   }, [range])
-
-  const PresetButton = ({
-    preset,
-    label,
-    isSelected,
-  }: {
-    preset: string
-    label: string
-    isSelected: boolean
-  }): JSX.Element => (
-    <Button
-      className={cn(isSelected && 'pointer-events-none')}
-      variant="ghost"
-      onClick={() => {
-        setPreset(preset)
-      }}
-    >
-      <>
-        <span className={cn('pr-2 opacity-0', isSelected && 'opacity-70')}>
-          <CheckIcon width={18} height={18} />
-        </span>
-        {label}
-      </>
-    </Button>
-  )
 
   // Helper function to check if two date ranges are equal
   const areRangesEqual = (a?: DateRange, b?: DateRange): boolean => {
