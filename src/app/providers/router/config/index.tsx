@@ -2,6 +2,7 @@ import { RouteProps } from 'react-router-dom'
 
 import {
   CandidatesPage,
+  CreatePostPage,
   ErrorPage,
   HomePage,
   ProfilePage,
@@ -12,6 +13,7 @@ import {
 enum AppRoutes {
   HOME = 'home',
   CANDIDATES = 'candidates',
+  CREATE_POST = 'createPost',
   PROFILE = 'profile',
   SIGN_IN = 'signIn',
   SIGN_UP = 'signUp',
@@ -21,6 +23,7 @@ enum AppRoutes {
 export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.HOME]: '/',
   [AppRoutes.CANDIDATES]: '/candidates',
+  [AppRoutes.CREATE_POST]: '/create-post',
   [AppRoutes.PROFILE]: '/profile',
   [AppRoutes.SIGN_IN]: '/sign-in',
   [AppRoutes.SIGN_UP]: '/sign-up',
@@ -35,6 +38,10 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
   [AppRoutes.CANDIDATES]: {
     path: RoutePath.candidates,
     element: <CandidatesPage />,
+  },
+  [AppRoutes.CREATE_POST]: {
+    path: RoutePath.createPost,
+    element: <CreatePostPage />,
   },
   [AppRoutes.PROFILE]: {
     path: RoutePath.profile,

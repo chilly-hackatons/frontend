@@ -28,6 +28,7 @@ import {
   FormMessage,
 } from '@/shared/ui/form'
 import { Input } from '@/shared/ui/input'
+import { LoadingSpinner } from '@/shared/ui/loading-spinner'
 import { MultipleSelector } from '@/shared/ui/multi-select'
 import { Textarea } from '@/shared/ui/textarea'
 import { toast } from '@/shared/ui/use-toast'
@@ -41,6 +42,7 @@ interface ProfileFormProps {
 export const ProfileForm = ({ user, formSchema }: ProfileFormProps) => {
   const { handleUser } = useAuthUser()
   const [isLoading, setLoading] = useState(false)
+  const [isLoadingDeleteJob, setLoadingDeleteJob] = useState(false)
   const isRecruiter = user.type === 'RECRUITER'
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -62,6 +64,11 @@ export const ProfileForm = ({ user, formSchema }: ProfileFormProps) => {
       })
     } catch (error) {
       console.log(error)
+      toast({
+        variant: 'destructive',
+        title: 'О нет',
+        description: 'Что то пошло не так',
+      })
     } finally {
       setLoading(false)
     }
@@ -69,8 +76,12 @@ export const ProfileForm = ({ user, formSchema }: ProfileFormProps) => {
 
   const removeJobExperience = async (jobTitle: string) => {
     const data = { companyTitle: jobTitle }
+    setLoadingDeleteJob(true)
     try {
-      const response = await baseApi.patch(`/job-delete/${user.id}`, data)
+      const response = await baseApi.patch(
+        `/profile/job-delete/${user.id}`,
+        data,
+      )
       console.log(response.data)
       handleUser(response.data)
       toast({
@@ -79,6 +90,13 @@ export const ProfileForm = ({ user, formSchema }: ProfileFormProps) => {
       })
     } catch (error) {
       console.log(error)
+      toast({
+        variant: 'destructive',
+        title: 'О нет',
+        description: 'Что то пошло не так',
+      })
+    } finally {
+      setLoadingDeleteJob(false)
     }
   }
 
@@ -252,7 +270,7 @@ export const ProfileForm = ({ user, formSchema }: ProfileFormProps) => {
                     variant="ghost"
                     className="ml-2 transition-all hover:bg-slate-200 cursor-pointer"
                   >
-                    <Trash2 />
+                    {isLoadingDeleteJob ? <LoadingSpinner /> : <Trash2 />}
                   </Button>
                 </CardTitle>
                 <CardDescription>

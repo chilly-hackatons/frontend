@@ -95,7 +95,7 @@ export const JobExpirience = ({ user }: JobExperienceProps) => {
     setLoading(true)
 
     try {
-      const response = await baseApi.patch(`/job-add/${user.id}`, data)
+      const response = await baseApi.patch(`/profile/job-add/${user.id}`, data)
       handleUser(response.data)
     } catch (error) {
       console.log(error)

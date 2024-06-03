@@ -2,7 +2,7 @@ import axios from 'axios'
 
 import { RefereshTokenDto } from '@/entities/auth/dto'
 
-export const urlApi = 'http://localhost:3000'
+export const urlApi = import.meta.env.VITE_API_URL
 
 export const baseApi = axios.create({
   baseURL: urlApi,

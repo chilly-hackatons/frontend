@@ -2,6 +2,7 @@
 
 interface ImportMetaEnv {
   readonly VITE_BASE_AUTH_KEY: string
+  readonly VITE_API_URL: string
   // more env variables...
 }
 

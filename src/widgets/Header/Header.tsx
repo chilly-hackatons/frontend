@@ -43,6 +43,10 @@ export const Header = () => {
               <NavItem href={RoutePath.candidates} title="Вакансии" />
             </NavigationMenuItem>
           )}
+
+          <NavigationMenuItem>
+            <NavItem href={RoutePath.createPost} title="Создать пост" />
+          </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
 
