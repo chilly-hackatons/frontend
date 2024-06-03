@@ -1,8 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { BriefcaseBusiness } from 'lucide-react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
+import { useAuthUser } from '@/app/providers/auth'
+import { UserDto } from '@/entities/auth/dto'
+import { baseApi } from '@/shared/lib/baseApi'
 import { Button } from '@/shared/ui/button'
 import { DateRangePicker } from '@/shared/ui/date-range-picker'
 import {
@@ -25,6 +29,15 @@ import {
 import { Input } from '@/shared/ui/input'
 import { Textarea } from '@/shared/ui/textarea'
 
+interface JobExperienceProps {
+  user: UserDto
+}
+
+const dateRange = z.object({
+  from: z.date(),
+  to: z.date(),
+})
+
 const formSchema = z.object({
   companyTitle: z
     .string({
@@ -46,24 +59,51 @@ const formSchema = z.object({
     .max(400, {
       message: 'Должно быть не более 400 символов',
     }),
+  date: dateRange,
 })
 
 const defaultValues = {
-  companyTtitle: '',
+  companyTitle: '',
   aboutWork: '',
+  date: {
+    from: new Date(new Date().setDate(new Date().getDate() - 2)),
+    to: new Date(new Date().setDate(new Date().getDate())),
+  },
 }
 
-export const JobExpirience = () => {
+export const JobExpirience = ({ user }: JobExperienceProps) => {
+  const [isLoading, setLoading] = useState(false)
+  const { handleUser } = useAuthUser()
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues,
   })
 
   // 2. Define a submit handler.
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values)
+
+    const data = {
+      ...values,
+      date: {
+        from: values.date.from.toISOString(),
+        to: values.date.to.toISOString(),
+      },
+    }
+    setLoading(true)
+
+    try {
+      const response = await baseApi.patch(`/job/${user.id}`, data)
+      handleUser(response.data)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+
+      form.reset()
+    }
   }
   return (
     <Dialog>
@@ -102,7 +142,6 @@ export const JobExpirience = () => {
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="aboutWork"
@@ -116,16 +155,27 @@ export const JobExpirience = () => {
                 </FormItem>
               )}
             />
-
-            <DateRangePicker
-              onUpdate={(values) => console.log(values)}
-              align="center"
-              locale="ru-RU"
-              showCompare={false}
+            <FormField
+              control={form.control}
+              name="date"
+              render={({ field }) => (
+                <FormItem className="flex flex-col gap-2">
+                  <FormLabel>Период работы</FormLabel>
+                  <FormControl>
+                    <DateRangePicker
+                      onUpdate={(values) => field.onChange(values.range)}
+                      align="center"
+                      locale="ru-RU"
+                      showCompare={false}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-
             <DialogFooter>
-              <Button type="submit" className="w-full mt-4">
+              <Button loading={isLoading} type="submit" className="w-full mt-4">
                 Сохранить
               </Button>
             </DialogFooter>

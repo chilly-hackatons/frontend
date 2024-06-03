@@ -14,13 +14,7 @@ import { Calendar } from './calendar'
 import { DateInput } from './date-input'
 import { Label } from './label'
 import { Popover, PopoverContent, PopoverTrigger } from './popover'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from './select'
+import { Select, SelectTrigger, SelectValue } from './select'
 import { Switch } from './switch'
 
 export interface DateRangePickerProps {
@@ -90,8 +84,8 @@ const PRESETS: Preset[] = [
 export const DateRangePicker: FC<DateRangePickerProps> & {
   filePath: string
 } = ({
-  initialDateFrom = new Date(new Date().setHours(0, 0, 0, 0)),
-  initialDateTo,
+  initialDateFrom = new Date(new Date().setDate(new Date().getDate() - 2)),
+  initialDateTo = new Date(new Date().setDate(new Date().getDate())),
   initialCompareFrom,
   initialCompareTo,
   onUpdate,
@@ -346,7 +340,7 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
       }}
     >
       <PopoverTrigger asChild>
-        <Button size="lg" variant="outline">
+        <Button className="w-fit" variant="outline">
           <div className="text-right">
             <div className="py-1">
               <div>{`${formatDate(range.from, locale)}${

@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { zodResolver } from '@hookform/resolvers/zod'
+import { format } from 'date-fns'
 import { Save } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -8,7 +10,15 @@ import { useAuthUser } from '@/app/providers/auth'
 import { UserDto } from '@/entities/auth/dto'
 import { OPTIONS } from '@/pages/SignUp/SignUp'
 import { baseApi } from '@/shared/lib/baseApi'
+import { calculateDateDifference } from '@/shared/lib/calculateDateDifference'
 import { Button } from '@/shared/ui/button'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/shared/ui/card'
 import {
   Form,
   FormControl,
@@ -76,7 +86,7 @@ export const ProfileForm = ({ user, formSchema }: ProfileFormProps) => {
 
       <div className="flex gap-4">
         <Form {...form}>
-          <form className="flex-[0_1_70%] grid grid-cols-profile gap-4">
+          <form className="flex-[0_1_70%] grid grid-cols-profile gap-4 grid-rows-[100px_100px_100px]">
             <FormField
               control={form.control}
               name="firstName"
@@ -204,7 +214,25 @@ export const ProfileForm = ({ user, formSchema }: ProfileFormProps) => {
           <h2 className="scroll-m-20 pb-2 text-xl font-semibold tracking-wide first:mt-0 ">
             Опыт работы
           </h2>
-          <JobExpirience />
+          <JobExpirience user={user} />
+
+          {user.jobExperience.map((job) => (
+            <Card
+              key={job.companyTitle}
+              className="max-w-[550px] transition-all hover:bg-accent cursor-pointer"
+              bordered
+            >
+              <CardHeader>
+                <CardTitle>{job.companyTitle}</CardTitle>
+                <CardDescription>
+                  {calculateDateDifference(job.date.from, job.date.to)}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="line-clamp-4 ">
+                {job.aboutWork.slice(0, 100) + '...'}
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
     </div>

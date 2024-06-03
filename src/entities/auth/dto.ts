@@ -5,6 +5,15 @@ interface Option {
   value: string
 }
 
+interface Job {
+  companyTitle: string
+  aboutWork: string
+  date: {
+    from: string
+    to: string
+  }
+}
+
 export interface UserDto {
   id: number
   email: string
@@ -13,7 +22,7 @@ export interface UserDto {
   patronymic: string
   about: string
   avatar: string | null
-  jobExperience: []
+  jobExperience: Job[]
   gitHubLink?: string
   skills?: Option[]
   companyName?: string
