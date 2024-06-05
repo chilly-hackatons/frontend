@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom'
 
 import { useAuthUser } from '@/app/providers/auth'
 import { RoutePath } from '@/app/providers/router/config'
+import { ApplicantCard } from '@/shared/ui/applicant-card'
 import { Input } from '@/shared/ui/input'
-import { ApplicantCard } from '@/shared/ui/post-card'
 
 const Canditates = () => {
   const { user } = useAuthUser()

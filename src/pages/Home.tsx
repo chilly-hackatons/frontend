@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 import { useFetchPosts } from '@/shared/hooks/useFetchPosts'
 import { LoadingSpinner } from '@/shared/ui/loading-spinner'
 import { Post } from '@/shared/ui/post'
@@ -16,7 +18,13 @@ const Home = () => {
     <div className="container p-4 flex animate-fade">
       <div className="flex flex-col gap-12 w-[70%]">
         {posts.map((post) => (
-          <Post key={post.id} {...post} />
+          <Link
+            key={post.id}
+            className="cursor-pointer"
+            to={`/post/${post.id}`}
+          >
+            <Post key={post.id} {...post} />
+          </Link>
         ))}
       </div>
     </div>

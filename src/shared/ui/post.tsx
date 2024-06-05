@@ -21,9 +21,14 @@ interface PostProps {
 export const Post = ({ content, title, createdAt }: PostProps) => {
   return (
     <div>
-      <Card bordered className="transition-all hover:bg-accent cursor-pointer">
+      <Card
+        bordered
+        className="transition-all hover:bg-accent cursor-pointer overflow-hidden max-h-[350px]"
+      >
         <CardHeader>
-          <CardTitle>{title}</CardTitle>
+          <CardTitle className="scroll-m-20 text-2xl font-bold tracking-tight lg:text-3xl">
+            {title}
+          </CardTitle>
           <CardDescription>
             {formatDistanceToNow(new Date(createdAt), {
               addSuffix: true,
@@ -32,11 +37,11 @@ export const Post = ({ content, title, createdAt }: PostProps) => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <ReactMarkdown>{content}</ReactMarkdown>
+          <article className="prose">
+            <ReactMarkdown>{content}</ReactMarkdown>
+          </article>
         </CardContent>
-        <CardFooter>
-          <p>Card Footer</p>
-        </CardFooter>
+        <CardFooter />
       </Card>
     </div>
   )

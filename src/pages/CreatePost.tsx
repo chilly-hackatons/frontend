@@ -108,7 +108,7 @@ const CreatePost = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Заголовок поста</FormLabel>
-                <FormControl>
+                <FormControl className="prose max-w-full">
                   <SimpleMdeReact {...field} />
                 </FormControl>
                 <FormMessage />

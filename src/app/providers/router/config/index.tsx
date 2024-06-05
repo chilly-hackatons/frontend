@@ -5,6 +5,7 @@ import {
   CreatePostPage,
   ErrorPage,
   HomePage,
+  PostPage,
   ProfilePage,
   SignInPage,
   SignUpPage,
@@ -15,6 +16,7 @@ enum AppRoutes {
   CANDIDATES = 'candidates',
   CREATE_POST = 'createPost',
   PROFILE = 'profile',
+  POST = 'post',
   SIGN_IN = 'signIn',
   SIGN_UP = 'signUp',
   NOTFOUND = 'notFound',
@@ -24,6 +26,7 @@ export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.HOME]: '/',
   [AppRoutes.CANDIDATES]: '/candidates',
   [AppRoutes.CREATE_POST]: '/create-post',
+  [AppRoutes.POST]: '/post/:id',
   [AppRoutes.PROFILE]: '/profile',
   [AppRoutes.SIGN_IN]: '/sign-in',
   [AppRoutes.SIGN_UP]: '/sign-up',
@@ -42,6 +45,10 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
   [AppRoutes.CREATE_POST]: {
     path: RoutePath.createPost,
     element: <CreatePostPage />,
+  },
+  [AppRoutes.POST]: {
+    path: RoutePath.post,
+    element: <PostPage />,
   },
   [AppRoutes.PROFILE]: {
     path: RoutePath.profile,
