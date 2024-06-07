@@ -2,7 +2,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { OPTIONS } from '@/pages/SignUp/SignUp'
 import { useSignUpContext } from '@/pages/SignUp/SignUpContext'
 import { Button } from '@/shared/ui/button'
 import {
@@ -23,6 +22,7 @@ import {
 import { Input } from '@/shared/ui/input'
 import { MultipleSelector } from '@/shared/ui/multi-select'
 import { Textarea } from '@/shared/ui/textarea'
+import { SKILLS } from '@/shared/utils/constants'
 import { useStepper } from '@/widgets/RegisterForm/context/RegisterFormStepperContext'
 
 const optionSchema = z.object({
@@ -112,7 +112,7 @@ export const CandidateSecondForm = () => {
                       <MultipleSelector
                         {...field}
                         inputProps={{ id: 'multiple-selector' }}
-                        defaultOptions={OPTIONS}
+                        defaultOptions={SKILLS}
                       />
                     </FormControl>
                     <FormMessage />

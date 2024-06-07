@@ -71,9 +71,9 @@ const Post = () => {
         </div>
         <div className="space-y-4">
           {post.comments.map((comment) => (
-            <button
+            <div
               key={comment.id}
-              className="flex flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent w-full"
+              className="flex flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm w-full"
             >
               <div className="flex w-full flex-col gap-1">
                 <div className="flex items-center">
@@ -91,7 +91,7 @@ const Post = () => {
                 </div>
               </div>
               <div className="line-clamp-4 text-lg">{comment.content}</div>
-            </button>
+            </div>
           ))}
         </div>
       </div>

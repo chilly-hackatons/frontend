@@ -38,14 +38,8 @@ export const Header = () => {
             </NavigationMenuItem>
           )}
 
-          {isRecruiter && (
-            <NavigationMenuItem>
-              <NavItem href={RoutePath.candidates} title="Вакансии" />
-            </NavigationMenuItem>
-          )}
-
           <NavigationMenuItem>
-            <NavItem href={RoutePath.createPost} title="Создать пост" />
+            <NavItem href={RoutePath.vacancys} title="Вакансии" />
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>

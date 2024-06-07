@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { useAuthUser } from '@/app/providers/auth'
@@ -12,7 +13,15 @@ import {
 import { UserAvatar } from '@/shared/ui/UserAvatar'
 
 export const HeaderProfileInfo = () => {
+  const [isOpen, setIsOpen] = useState(false)
+
   const { logout, user } = useAuthUser()
+
+  const isRecruiter = user?.type === 'RECRUITER'
+
+  const closeMenu = () => {
+    setIsOpen(false)
+  }
 
   return (
     <div className="flex gap-4">
@@ -22,14 +31,25 @@ export const HeaderProfileInfo = () => {
         </p>
         <p className="text-sm text-muted-foreground">{userType(user!.type)}</p>
       </div>
-      <DropdownMenu>
+      <DropdownMenu onOpenChange={setIsOpen} open={isOpen}>
         <DropdownMenuTrigger>
           <UserAvatar />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={closeMenu}>
+            <Link to={RoutePath.createPost}>Создать пост</Link>
+          </DropdownMenuItem>
+
+          {isRecruiter && (
+            <DropdownMenuItem onClick={closeMenu}>
+              <Link to={RoutePath.createVacancy}>Создать вакансию</Link>
+            </DropdownMenuItem>
+          )}
+
+          <DropdownMenuItem onClick={closeMenu}>
             <Link to={RoutePath.profile}>Профиль</Link>
           </DropdownMenuItem>
+
           <DropdownMenuItem onClick={logout}>Выйти</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

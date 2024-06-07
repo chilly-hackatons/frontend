@@ -78,3 +78,7 @@
 .cm-spell-error {
   background-color: transparent !important;
 }
+
+.prose {
+  max-width: none !important;
+}

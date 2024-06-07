@@ -7,7 +7,6 @@ import { z } from 'zod'
 
 import { useAuthUser } from '@/app/providers/auth'
 import { UserDto } from '@/entities/auth/dto'
-import { OPTIONS } from '@/pages/SignUp/SignUp'
 import { baseApi } from '@/shared/lib/baseApi'
 import { calculateDateDifference } from '@/shared/lib/calculateDateDifference'
 import { calculateTotalExperience } from '@/shared/lib/calculateTotalExperience'
@@ -32,6 +31,7 @@ import { LoadingSpinner } from '@/shared/ui/loading-spinner'
 import { MultipleSelector } from '@/shared/ui/multi-select'
 import { Textarea } from '@/shared/ui/textarea'
 import { toast } from '@/shared/ui/use-toast'
+import { SKILLS } from '@/shared/utils/constants'
 import { JobExpirience } from '@/widgets/ProfileForm/JobExpirience'
 
 interface ProfileFormProps {
@@ -41,7 +41,7 @@ interface ProfileFormProps {
 
 export const ProfileForm = ({ user, formSchema }: ProfileFormProps) => {
   const { handleUser } = useAuthUser()
-  const [isLoading, setLoading] = useState(false)
+  const [isLoadingProfile, setLoadingProfile] = useState(false)
   const [isLoadingDeleteJob, setLoadingDeleteJob] = useState(false)
   const isRecruiter = user.type === 'RECRUITER'
 
@@ -54,7 +54,7 @@ export const ProfileForm = ({ user, formSchema }: ProfileFormProps) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const userProfile = { ...values, userType: user.type }
-    setLoading(true)
+    setLoadingProfile(true)
     try {
       const response = await baseApi.patch(`/profile/${user.id}`, userProfile)
       handleUser(response.data)
@@ -70,7 +70,7 @@ export const ProfileForm = ({ user, formSchema }: ProfileFormProps) => {
         description: 'Что то пошло не так',
       })
     } finally {
-      setLoading(false)
+      setLoadingProfile(false)
     }
   }
 
@@ -109,7 +109,7 @@ export const ProfileForm = ({ user, formSchema }: ProfileFormProps) => {
 
         <Button
           disabled={isTouchedForm}
-          loading={isLoading}
+          loading={isLoadingProfile}
           onClick={form.handleSubmit(onSubmit)}
         >
           <Save className="mr-2 h-4 w-4" />
@@ -217,7 +217,7 @@ export const ProfileForm = ({ user, formSchema }: ProfileFormProps) => {
                         inputProps={{
                           id: 'multiple-selector',
                         }}
-                        defaultOptions={OPTIONS}
+                        defaultOptions={SKILLS}
                         isFullWidth
                       />
                     </FormControl>
@@ -277,8 +277,8 @@ export const ProfileForm = ({ user, formSchema }: ProfileFormProps) => {
                   {calculateDateDifference(job.date.from, job.date.to)}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="line-clamp-4 ">
-                {job.aboutWork.slice(0, 50) + '...'}
+              <CardContent className="line-clamp-1">
+                {job.aboutWork.slice(0, 40) + '...'}
               </CardContent>
             </Card>
           ))}

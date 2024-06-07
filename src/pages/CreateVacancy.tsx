@@ -3,10 +3,12 @@ import 'easymde/dist/easymde.min.css'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { Navigate } from 'react-router-dom'
 import SimpleMdeReact from 'react-simplemde-editor'
 import { z } from 'zod'
 
 import { useAuthUser } from '@/app/providers/auth'
+import { RoutePath } from '@/app/providers/router/config'
 import { baseApi } from '@/shared/lib/baseApi'
 import { Button } from '@/shared/ui/button'
 import {
@@ -20,7 +22,7 @@ import {
 import { Input } from '@/shared/ui/input'
 import { MultipleSelector } from '@/shared/ui/multi-select'
 import { toast } from '@/shared/ui/use-toast'
-import { POST_TOPICS } from '@/shared/utils/constants'
+import { CREATE_VACANCY_OPTIONS } from '@/shared/utils/constants'
 
 const optionSchema = z.object({
   label: z.string(),
@@ -32,22 +34,25 @@ const formSchema = z.object({
     .string({ required_error: 'Обязательное поле' })
     .min(2, { message: 'Минимум 2 символа' })
     .max(50, { message: 'Максимум 50 символов' }),
-  content: z
+  description: z
     .string({ required_error: 'Обязательное поле' })
     .min(50, { message: 'Минимум 50 символов' })
-    .max(1000, { message: 'Максимум 1000 символов' }),
+    .max(10000, { message: 'Максимум 10000 символов' }),
   tags: z.array(optionSchema, { required_error: 'Обязательное поле' }).min(1, {
     message: 'Минимум 1 тег',
   }),
 })
-const CreatePost = () => {
+const CreateVacancy = () => {
   const [isLoading, setLoading] = useState(false)
   const { user } = useAuthUser()
+
+  const isCandidate = user?.type === 'APPLICANT'
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: '',
-      content: '',
+      description: '',
       tags: [],
     },
   })
@@ -60,14 +65,14 @@ const CreatePost = () => {
 
     const data = {
       ...values,
-      userId: user!.id,
+      recruiterId: user!.id,
     }
     setLoading(true)
     try {
-      await baseApi.post('/post', data)
+      await baseApi.post('/vacancy', data)
       toast({
-        title: 'Пост создан',
-        description: 'Спасибо за создание поста',
+        title: 'Вакансия создана',
+        description: 'Спасибо за создание вакансии',
       })
     } catch (error) {
       console.log(error)
@@ -82,6 +87,10 @@ const CreatePost = () => {
     }
   }
 
+  if (isCandidate) {
+    return <Navigate to={RoutePath.home} />
+  }
+
   return (
     <div className="container p-4">
       <Form {...form}>
@@ -91,12 +100,9 @@ const CreatePost = () => {
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Заголовок поста</FormLabel>
+                <FormLabel>Заголовок вакансии</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Как взрастить картошку на марсе?"
-                    {...field}
-                  />
+                  <Input placeholder="Frontend разработчик" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -104,12 +110,15 @@ const CreatePost = () => {
           />
           <FormField
             control={form.control}
-            name="content"
+            name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Пост</FormLabel>
+                <FormLabel>Описание вакансии</FormLabel>
                 <FormControl className="prose max-w-full">
-                  <SimpleMdeReact {...field} />
+                  <SimpleMdeReact
+                    placeholder="Нам нужен крутой Frontend разработчик"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -126,7 +135,7 @@ const CreatePost = () => {
                   <MultipleSelector
                     {...field}
                     inputProps={{ id: 'multiple-selector' }}
-                    defaultOptions={POST_TOPICS}
+                    defaultOptions={CREATE_VACANCY_OPTIONS}
                   />
                 </FormControl>
                 <FormMessage />
@@ -143,4 +152,4 @@ const CreatePost = () => {
   )
 }
 
-export default CreatePost
+export default CreateVacancy
