@@ -1,11 +1,5 @@
 import axios from 'axios'
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
+import { createContext, ReactNode, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { RoutePath } from '@/app/providers/router/config'
@@ -13,7 +7,7 @@ import { RefereshTokenDto, UserDto } from '@/entities/auth/dto'
 import { urlApi } from '@/shared/lib/baseApi'
 
 interface AuthContextProps {
-  user: UserDto | null
+  user: UserDto
   isAuthenticated: boolean
   isLoading: boolean
   checkAuthUser: () => Promise<void>
@@ -31,7 +25,7 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<UserDto | null>(null)
+  const [user, setUser] = useState<UserDto>({} as UserDto)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isLoading, setLoading] = useState(false)
 
@@ -69,20 +63,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setIsAuthenticated(true)
     } catch (error) {
       navigate(RoutePath.signIn)
-      setUser(null)
       setIsAuthenticated(false)
     } finally {
       setLoading(false)
     }
   }
-
-  useEffect(() => {
-    if (localStorage.getItem('token')) {
-      checkAuthUser()
-    } else {
-      navigate(RoutePath.signIn)
-    }
-  }, [])
 
   return (
     <AuthContext.Provider

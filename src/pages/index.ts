@@ -6,6 +6,9 @@ export const CreatePostPage = lazy(() => import('./CreatePost'))
 export const PostPage = lazy(() => import('./Post'))
 export const VacancyPage = lazy(() => import('./Vacancy'))
 export const VacancysPage = lazy(() => import('./Vacancys'))
+export const VacanciesStatisticsPage = lazy(
+  () => import('./VacanciesStatistics'),
+)
 export const CreateVacancyPage = lazy(() => import('./CreateVacancy'))
 export const ProfilePage = lazy(() => import('./Profile'))
 export const SignUpPage = lazy(() => import('./SignUp/SignUp'))

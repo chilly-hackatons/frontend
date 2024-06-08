@@ -10,6 +10,7 @@ import {
   ProfilePage,
   SignInPage,
   SignUpPage,
+  VacanciesStatisticsPage,
   VacancyPage,
   VacancysPage,
 } from '@/pages'
@@ -23,6 +24,7 @@ enum AppRoutes {
   VACANCY = 'vacancy',
   VACANCYS = 'vacancys',
   VACANCY_CREATE = 'createVacancy',
+  VACANCIES_STATISTICS = 'vacanciesStatistics',
   SIGN_IN = 'signIn',
   SIGN_UP = 'signUp',
   NOTFOUND = 'notFound',
@@ -35,6 +37,7 @@ export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.POST]: '/post/:id',
   [AppRoutes.VACANCY_CREATE]: '/vacancy-create',
   [AppRoutes.VACANCY]: '/vacancy/:id',
+  [AppRoutes.VACANCIES_STATISTICS]: '/vacancies-statistics',
   [AppRoutes.VACANCYS]: '/vacancys',
   [AppRoutes.PROFILE]: '/profile',
   [AppRoutes.SIGN_IN]: '/sign-in',
@@ -74,6 +77,10 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
   [AppRoutes.VACANCY_CREATE]: {
     path: RoutePath.createVacancy,
     element: <CreateVacancyPage />,
+  },
+  [AppRoutes.VACANCIES_STATISTICS]: {
+    path: RoutePath.vacanciesStatistics,
+    element: <VacanciesStatisticsPage />,
   },
   [AppRoutes.SIGN_IN]: {
     path: RoutePath.signIn,

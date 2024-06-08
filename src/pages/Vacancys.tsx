@@ -10,7 +10,7 @@ import { VacancyCard } from '@/shared/ui/vacancy-card'
 const Vacancys = () => {
   const [search, setSearch] = useState('')
 
-  const searchDebouncedValue = useDebounce(search, 1000)
+  const searchDebouncedValue = useDebounce(search, 500)
 
   const { vacancys, loading } = useFetchVacancys(searchDebouncedValue)
 
