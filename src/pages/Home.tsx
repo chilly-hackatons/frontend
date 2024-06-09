@@ -9,7 +9,7 @@ const Home = () => {
 
   if (isLoading) {
     return (
-      <div className="container p-4 flex animate-fade min-h-screen">
+      <div className="container p-4 flex animate-fade min-h-screen items-center justify-center">
         <LoadingSpinner />
       </div>
     )

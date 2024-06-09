@@ -19,7 +19,7 @@ const Vacancy = () => {
 
   const { vacancy, isLoading } = useFetchVacancy(id)
 
-  const isCandidate = user?.type === 'APPLICANT'
+  const isCandidate = user.type === 'APPLICANT'
 
   if (isLoading) {
     return (

@@ -33,7 +33,7 @@ const formSchema = z.object({
   title: z
     .string({ required_error: 'Обязательное поле' })
     .min(2, { message: 'Минимум 2 символа' })
-    .max(50, { message: 'Максимум 50 символов' }),
+    .max(150, { message: 'Максимум 150 символов' }),
   description: z
     .string({ required_error: 'Обязательное поле' })
     .min(50, { message: 'Минимум 50 символов' })
@@ -46,7 +46,7 @@ const CreateVacancy = () => {
   const [isLoading, setLoading] = useState(false)
   const { user } = useAuthUser()
 
-  const isCandidate = user?.type === 'APPLICANT'
+  const isCandidate = user.type === 'APPLICANT'
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
