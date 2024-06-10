@@ -33,7 +33,7 @@ export const useFetcVacanciesStatistics = (id: string | number) => {
 
   useEffect(() => {
     fetchVacanciesStatistics()
-  }, [])
+  }, [id])
 
   return {
     vacanciesStatistics,

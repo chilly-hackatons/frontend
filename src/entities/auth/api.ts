@@ -3,6 +3,7 @@ import { AxiosResponse } from 'axios'
 import {
   UserSignInDto,
   UserSignInDtoResponse,
+  UserSignUpContext,
   UserSignUpDto,
   UserSignUpDtoResponse,
 } from '@/entities/auth/dto'
@@ -15,7 +16,7 @@ export const signIn = async (
 }
 
 export const signUp = async (
-  body: UserSignUpDto,
+  body: UserSignUpDto | UserSignUpContext,
 ): Promise<AxiosResponse<UserSignUpDtoResponse>> => {
   return baseApi.post<UserSignUpDtoResponse>('/auth/sign-up', body)
 }

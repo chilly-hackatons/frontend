@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuthUser } from '@/app/providers/auth'
 import { RoutePath } from '@/app/providers/router/config'
 import { signUp } from '@/entities/auth/api'
-import { UserSignUpDto } from '@/entities/auth/dto'
+import { UserSignUpContext } from '@/entities/auth/dto'
 import { useToast } from '@/shared/ui/use-toast'
 
 export const useSignUp = () => {
@@ -18,10 +18,24 @@ export const useSignUp = () => {
 
   const { handleAuth, handleUser } = useAuthUser()
 
-  const signUpUser = async (body: UserSignUpDto) => {
+  const signUpUser = async (body: UserSignUpContext) => {
+    let user
+    if (body.technologies) {
+      const technologies = body.technologies.map(
+        (tag: { value: string; label: string }) => tag.label,
+      )
+
+      user = {
+        ...body,
+        technologies,
+      }
+    } else {
+      user = body
+    }
+
     setLoading(true)
     try {
-      const response = await signUp(body)
+      const response = await signUp(user)
 
       setError(false)
       setErrorMessage('')

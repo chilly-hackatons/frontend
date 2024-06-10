@@ -30,12 +30,10 @@ const optionSchema = z.object({
 const formSchema = z.object({
   title: z
     .string({ required_error: 'Обязательное поле' })
-    .min(2, { message: 'Минимум 2 символа' })
-    .max(50, { message: 'Максимум 50 символов' }),
+    .min(2, { message: 'Минимум 2 символа' }),
   content: z
     .string({ required_error: 'Обязательное поле' })
-    .min(50, { message: 'Минимум 50 символов' })
-    .max(1000, { message: 'Максимум 1000 символов' }),
+    .min(50, { message: 'Минимум 50 символов' }),
   tags: z.array(optionSchema, { required_error: 'Обязательное поле' }).min(1, {
     message: 'Минимум 1 тег',
   }),

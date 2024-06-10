@@ -1,8 +1,10 @@
+import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { useParams } from 'react-router-dom'
 
 import { useAuthUser } from '@/app/providers/auth'
 import { useFetchVacancy } from '@/shared/hooks/useFetchVacancy'
+import { baseApi } from '@/shared/lib/baseApi'
 import { Button } from '@/shared/ui/button'
 import {
   Card,
@@ -12,14 +14,34 @@ import {
   CardTitle,
 } from '@/shared/ui/card'
 import { LoadingSpinner } from '@/shared/ui/loading-spinner'
+import { toast } from '@/shared/ui/use-toast'
 
 const Vacancy = () => {
   const { user } = useAuthUser()
   const { id } = useParams()
 
   const { vacancy, isLoading } = useFetchVacancy(id)
+  const [isLoadingRespond, setLoadingRespond] = useState(false)
+  const [isRespond, setIsRespond] = useState(false)
 
   const isCandidate = user.type === 'APPLICANT'
+
+  const vacancyRespond = async () => {
+    setLoadingRespond(true)
+
+    try {
+      await baseApi.patch('vacancy/vacancy-respond', {
+        applicantId: Number(user.id),
+        vacancyId: Number(id),
+      })
+      setIsRespond(true)
+      toast({ title: 'Вы успешно откликнулись на вакансию' })
+    } catch (error) {
+      toast({ variant: 'destructive', title: 'Что-то пошло не так' })
+    } finally {
+      setLoadingRespond(false)
+    }
+  }
 
   if (isLoading) {
     return (
@@ -45,7 +67,16 @@ const Vacancy = () => {
 
         {isCandidate && (
           <CardFooter>
-            <Button size="lg">Откликнуться</Button>
+            <Button
+              loading={isLoadingRespond}
+              disabled={vacancy.isRespondedToVacancy || isRespond}
+              onClick={vacancyRespond}
+              size="lg"
+            >
+              {vacancy.isRespondedToVacancy || isRespond
+                ? 'Вы уже откликнулись'
+                : 'Откликнуться'}
+            </Button>
           </CardFooter>
         )}
       </Card>

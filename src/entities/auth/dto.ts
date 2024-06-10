@@ -62,3 +62,16 @@ export interface UserSignUpDto {
   company_name?: string
   user_type: UserType
 }
+
+export interface UserSignUpContext {
+  first_name: string
+  last_name: string
+  patronymic: string
+  email: string
+  about: string
+  password: string
+  github?: string
+  technologies?: Option[]
+  company_name?: string
+  user_type: UserType
+}

@@ -50,10 +50,21 @@ export const ProfileForm = ({ user, formSchema }: ProfileFormProps) => {
     defaultValues: user,
   })
 
-  const isTouchedForm = Object.values(form.formState.touchedFields).length === 0
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const userProfile = { ...values, userType: user.type }
+    let userProfile
+    console.log(values)
+    if (values.skills) {
+      userProfile = {
+        ...values,
+        userType: user.type,
+        skills: values.skills.map(
+          (tag: { value: string; label: string }) => tag.label,
+        ),
+      }
+    } else {
+      userProfile = { ...values, userType: user.type }
+    }
+
     setLoadingProfile(true)
     try {
       const response = await baseApi.patch(`/profile/${user.id}`, userProfile)
@@ -108,7 +119,6 @@ export const ProfileForm = ({ user, formSchema }: ProfileFormProps) => {
         </h2>
 
         <Button
-          disabled={isTouchedForm}
           loading={isLoadingProfile}
           onClick={form.handleSubmit(onSubmit)}
         >

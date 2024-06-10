@@ -55,9 +55,6 @@ const formSchema = z.object({
     })
     .min(50, {
       message: 'Должно быть не менее 50 символов',
-    })
-    .max(400, {
-      message: 'Должно быть не более 400 символов',
     }),
   date: dateRange,
 })
@@ -136,7 +133,7 @@ export const JobExpirience = ({ user }: JobExperienceProps) => {
                 <FormItem>
                   <FormLabel>Название компании</FormLabel>
                   <FormControl>
-                    <Input placeholder="Yandex" {...field} />
+                    <Input placeholder="Яндекс" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -71,7 +71,7 @@ const formSchemaRecruiter = z.object({
 const Profile = () => {
   const { user, isLoading } = useAuthUser()
 
-  const isRecruiter = user?.type === 'RECRUITER'
+  const isRecruiter = user.type === 'RECRUITER'
 
   if (isLoading) {
     return (
@@ -79,10 +79,6 @@ const Profile = () => {
         <LoadingSpinner />
       </div>
     )
-  }
-
-  if (!user) {
-    return <>User not found</>
   }
 
   return (

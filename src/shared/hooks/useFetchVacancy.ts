@@ -1,21 +1,24 @@
 import { useEffect, useState } from 'react'
 
+import { useAuthUser } from '@/app/providers/auth'
 import { baseApi } from '@/shared/lib/baseApi'
 
 interface Vacancy {
   id: string
   title: string
   description: string
+  isRespondedToVacancy: boolean
 }
 
 export const useFetchVacancy = (id: string | undefined) => {
+  const { user } = useAuthUser()
   const [vacancy, setVacancy] = useState<Vacancy>({} as Vacancy)
   const [isLoading, setLoading] = useState(false)
 
   const fetchPosts = async () => {
     setLoading(true)
     try {
-      const response = await baseApi.get(`/vacancy/${id}`)
+      const response = await baseApi.get(`/vacancy/${id}?userId=${user.id}`)
       const data = response.data
       setVacancy(data)
     } catch (error) {
@@ -29,5 +32,8 @@ export const useFetchVacancy = (id: string | undefined) => {
     if (id) fetchPosts()
   }, [id])
 
-  return { vacancy, isLoading }
+  return {
+    vacancy,
+    isLoading,
+  }
 }
