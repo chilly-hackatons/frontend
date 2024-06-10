@@ -13,7 +13,7 @@ const Canditates = () => {
 
   const { candidates, loading } = useFetchCandidates(searchDebouncedValue)
 
-  const isСandidatesEmpty = candidates.length === 0
+  const isCandidatesEmpty = candidates.length === 0
 
   return (
     <div className="container p-4  animate-fade flex flex-col gap-6">
@@ -31,13 +31,13 @@ const Canditates = () => {
 
       <div className="grid grid-cols-homePosts gap-4">
         {loading && (
-          <div className="flex h-screen items-center justify-center">
+          <div className="flex h-screen items-center justify-center animate-fade">
             <LoadingSpinner />
           </div>
         )}
 
-        {isСandidatesEmpty && search && !loading && (
-          <div className="flex items-center justify-center mt-20">
+        {isCandidatesEmpty && search && !loading && (
+          <div className="flex items-center justify-center mt-20 animate-fade">
             <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
               🥺 Ничего не найдено 🥺
             </h3>

@@ -7,11 +7,29 @@ interface Post {
   title: string
   content: string
   createdAt: string
+  tags: { id: number; name: string }[]
 }
 
-export const useFetchPosts = () => {
+export const useFetchPosts = (searchQuery?: string) => {
   const [posts, setPosts] = useState<Post[]>([])
+  const [postsSearch, setPostsSearch] = useState<Post[]>([])
+
   const [isLoading, setLoading] = useState(false)
+
+  const fetchSearchPosts = async () => {
+    setLoading(true)
+    try {
+      const response = await baseApi.get(
+        `/post/search?searchQuery=${searchQuery}`,
+      )
+      const data = response.data
+      setPostsSearch(data)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const fetchPosts = async () => {
     setLoading(true)
@@ -30,5 +48,9 @@ export const useFetchPosts = () => {
     fetchPosts()
   }, [])
 
-  return { posts, isLoading }
+  useEffect(() => {
+    if (searchQuery) fetchSearchPosts()
+  }, [searchQuery])
+
+  return { posts: searchQuery ? postsSearch : posts, isLoading }
 }

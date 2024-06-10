@@ -34,7 +34,7 @@ const VacanciesStatistics = () => {
           <Card
             key={vacancy.id}
             bordered
-            className="transition-all hover:bg-accent cursor-pointer overflow-hidden max-h-[350px] flex flex-col justify-around"
+            className="transition-all hover:bg-accent cursor-pointer overflow-hidden max-h-[350px] flex flex-col justify-around animate-fade"
           >
             <CardHeader>
               <CardTitle className="line-clamp-2 scroll-m-20 text-2xl font-bold tracking-tight lg:text-3xl">

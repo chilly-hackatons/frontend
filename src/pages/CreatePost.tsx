@@ -54,11 +54,12 @@ const CreatePost = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    // const tags = values.tags.map((tag) => tag.value)
+    const tags = values.tags.map((tag) => tag.label)
 
     const data = {
       ...values,
       userId: user!.id,
+      tags,
     }
     setLoading(true)
     try {

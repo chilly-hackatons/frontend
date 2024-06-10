@@ -2,6 +2,7 @@ import { formatDistanceToNow } from 'date-fns'
 import { ru } from 'date-fns/locale'
 import ReactMarkdown from 'react-markdown'
 
+import { Badge } from '@/shared/ui/badge'
 import {
   Card,
   CardContent,
@@ -16,9 +17,10 @@ interface PostProps {
   title: string
   content: string
   createdAt: string
+  tags: { id: number; name: string }[]
 }
 
-export const Post = ({ content, title, createdAt }: PostProps) => {
+export const Post = ({ content, title, createdAt, tags }: PostProps) => {
   return (
     <div>
       <Card
@@ -41,7 +43,13 @@ export const Post = ({ content, title, createdAt }: PostProps) => {
             <ReactMarkdown>{content}</ReactMarkdown>
           </article>
         </CardContent>
-        <CardFooter />
+        <CardFooter className="gap-2 flex-wrap">
+          {tags.map((tag) => (
+            <Badge key={tag.id} variant="default">
+              {tag.name}
+            </Badge>
+          ))}
+        </CardFooter>
       </Card>
     </div>
   )

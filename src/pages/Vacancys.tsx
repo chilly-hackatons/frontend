@@ -27,13 +27,13 @@ const Vacancys = () => {
       </div>
 
       {loading && (
-        <div className="flex h-screen items-center justify-center">
+        <div className="flex h-screen items-center justify-center animate-fade">
           <LoadingSpinner />
         </div>
       )}
 
-      {isVacancyEmpty && search && (
-        <div className="flex items-center justify-center mt-20">
+      {isVacancyEmpty && search && !loading && (
+        <div className="flex items-center justify-center mt-20 animate-fade">
           <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
             🥺 Ничего не найдено 🥺
           </h3>
@@ -41,7 +41,11 @@ const Vacancys = () => {
       )}
 
       {vacancys.map((vacancy) => (
-        <Link key={vacancy.id} to={`/vacancy/${vacancy.id}`}>
+        <Link
+          key={vacancy.id}
+          className="animate-fade"
+          to={`/vacancy/${vacancy.id}`}
+        >
           <VacancyCard key={vacancy.id} {...vacancy} />
         </Link>
       ))}
