@@ -45,7 +45,7 @@ const Vacancy = () => {
 
   if (isLoading) {
     return (
-      <div className="container p-4 flex animate-fade min-h-screen">
+      <div className="container justify-center items-center p-4 flex animate-fade min-h-screen">
         <LoadingSpinner />
       </div>
     )

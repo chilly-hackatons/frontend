@@ -3,7 +3,7 @@ import 'easymde/dist/easymde.min.css'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import SimpleMdeReact from 'react-simplemde-editor'
 import { z } from 'zod'
 
@@ -46,6 +46,8 @@ const CreateVacancy = () => {
   const [isLoading, setLoading] = useState(false)
   const { user } = useAuthUser()
 
+  const navigate = useNavigate()
+
   const isCandidate = user.type === 'APPLICANT'
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -59,21 +61,22 @@ const CreateVacancy = () => {
 
   // 2. Define a submit handler.
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    // const tags = values.tags.map((tag) => tag.value)
+    const tags = values.tags.map((tag) => tag.value)
 
     const data = {
       ...values,
-      recruiterId: user!.id,
+      recruiterId: user.id,
+      tags,
     }
     setLoading(true)
     try {
-      await baseApi.post('/vacancy', data)
+      const response = await baseApi.post('/vacancy', data)
       toast({
         title: 'Вакансия создана',
         description: 'Спасибо за создание вакансии',
       })
+
+      navigate(`/vacancy/${response.data.id}`)
     } catch (error) {
       console.log(error)
       toast({

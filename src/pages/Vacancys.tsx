@@ -27,7 +27,7 @@ const Vacancys = () => {
       </div>
 
       {loading && (
-        <div className="flex h-screen items-center justify-center animate-fade">
+        <div className="flex items-center justify-center animate-fade mt-12">
           <LoadingSpinner />
         </div>
       )}

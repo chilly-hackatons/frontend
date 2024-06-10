@@ -3,6 +3,7 @@ import 'easymde/dist/easymde.min.css'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import SimpleMdeReact from 'react-simplemde-editor'
 import { z } from 'zod'
 
@@ -39,8 +40,11 @@ const formSchema = z.object({
   }),
 })
 const CreatePost = () => {
+  const navigate = useNavigate()
+
   const [isLoading, setLoading] = useState(false)
   const { user } = useAuthUser()
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -63,11 +67,13 @@ const CreatePost = () => {
     }
     setLoading(true)
     try {
-      await baseApi.post('/post', data)
+      const response = await baseApi.post('/post', data)
       toast({
         title: 'Пост создан',
         description: 'Спасибо за создание поста',
       })
+
+      navigate(`/post/${response.data.id}`)
     } catch (error) {
       console.log(error)
       toast({
