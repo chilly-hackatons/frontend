@@ -3,6 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Save, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import SimpleMdeReact from 'react-simplemde-editor'
 import { z } from 'zod'
 
 import { useAuthUser } from '@/app/providers/auth'
@@ -29,7 +30,6 @@ import {
 import { Input } from '@/shared/ui/input'
 import { LoadingSpinner } from '@/shared/ui/loading-spinner'
 import { MultipleSelector } from '@/shared/ui/multi-select'
-import { Textarea } from '@/shared/ui/textarea'
 import { toast } from '@/shared/ui/use-toast'
 import { SKILLS } from '@/shared/utils/constants'
 import { JobExpirience } from '@/widgets/ProfileForm/JobExpirience'
@@ -241,10 +241,10 @@ export const ProfileForm = ({ user, formSchema }: ProfileFormProps) => {
               control={form.control}
               name="about"
               render={({ field }) => (
-                <FormItem className="col-span-2">
+                <FormItem className="col-span-3">
                   <FormLabel>О себе</FormLabel>
-                  <FormControl>
-                    <Textarea rows={6} defaultValue={user.about} {...field} />
+                  <FormControl className="prose max-w-full">
+                    <SimpleMdeReact {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { BriefcaseBusiness } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { SimpleMdeReact } from 'react-simplemde-editor'
 import { z } from 'zod'
 
 import { useAuthUser } from '@/app/providers/auth'
@@ -27,7 +28,6 @@ import {
   FormMessage,
 } from '@/shared/ui/form'
 import { Input } from '@/shared/ui/input'
-import { Textarea } from '@/shared/ui/textarea'
 
 interface JobExperienceProps {
   user: UserDto
@@ -116,7 +116,7 @@ export const JobExpirience = ({ user }: JobExperienceProps) => {
         </Button>
       </DialogTrigger>
 
-      <DialogContent>
+      <DialogContent className="sm:max-w-[625px]">
         <DialogHeader>
           <DialogTitle>Добавить место работы</DialogTitle>
           <DialogDescription>
@@ -145,8 +145,8 @@ export const JobExpirience = ({ user }: JobExperienceProps) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Описание работы</FormLabel>
-                  <FormControl>
-                    <Textarea rows={6} {...field} />
+                  <FormControl className="prose max-w-[625px]">
+                    <SimpleMdeReact {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

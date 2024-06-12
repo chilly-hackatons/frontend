@@ -8,7 +8,7 @@ import {
 } from 'date-fns'
 
 /**
- * Функция для вычисления разницы между двумя датами в формате "X years Y months Z days".
+ * Функция для вычисления разницы между двумя датами в формате "X лет Y месяцев Z дней".
  * @param date1Str - Первая дата в формате строки ISO.
  * @param date2Str - Вторая дата в формате строки ISO.
  * @returns Строка, представляющая разницу в годах, месяцах и днях.
@@ -39,5 +39,51 @@ export const calculateDateDifference = (
   // Вычисление разницы в днях
   const daysDifference = differenceInDays(dateAfterSubtractingMonths, date1)
 
-  return `${yearsDifference} years ${monthsDifference} months ${daysDifference} days`
+  // Функции для склонения слов
+  const getYearsDeclension = (years: number) => {
+    if (years % 10 === 1 && years % 100 !== 11) return 'год'
+    if (
+      years % 10 >= 2 &&
+      years % 10 <= 4 &&
+      (years % 100 < 10 || years % 100 >= 20)
+    )
+      return 'года'
+    return 'лет'
+  }
+
+  const getMonthsDeclension = (months: number) => {
+    if (months % 10 === 1 && months % 100 !== 11) return 'месяц'
+    if (
+      months % 10 >= 2 &&
+      months % 10 <= 4 &&
+      (months % 100 < 10 || months % 100 >= 20)
+    )
+      return 'месяца'
+    return 'месяцев'
+  }
+
+  const getDaysDeclension = (days: number) => {
+    if (days % 10 === 1 && days % 100 !== 11) return 'день'
+    if (
+      days % 10 >= 2 &&
+      days % 10 <= 4 &&
+      (days % 100 < 10 || days % 100 >= 20)
+    )
+      return 'дня'
+    return 'дней'
+  }
+
+  // Создаем массив строк с разницей
+  const parts = []
+  if (yearsDifference > 0) {
+    parts.push(`${yearsDifference} ${getYearsDeclension(yearsDifference)}`)
+  }
+  if (monthsDifference > 0) {
+    parts.push(`${monthsDifference} ${getMonthsDeclension(monthsDifference)}`)
+  }
+  if (daysDifference > 0) {
+    parts.push(`${daysDifference} ${getDaysDeclension(daysDifference)}`)
+  }
+
+  return parts.join(' ')
 }

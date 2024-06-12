@@ -60,24 +60,26 @@ const VacanciesStatistics = () => {
             bordered
             className="transition-all hover:bg-accent cursor-pointer overflow-hidden max-h-[350px] flex flex-col justify-around animate-fade"
           >
-            <CardHeader>
-              <CardTitle className="line-clamp-2 scroll-m-20 text-2xl font-bold tracking-tight lg:text-3xl">
-                {vacancy.title}
-              </CardTitle>
-              <CardDescription>
-                Откликов: {vacancy.applications.length}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <article className="prose line-clamp-3">
-                <ReactMarkdown>
-                  {vacancy.description.slice(0, 300)}
-                </ReactMarkdown>
-              </article>
-            </CardContent>
-            <CardFooter>
-              <Badge>React</Badge>
-            </CardFooter>
+            <Link to={`/candidates-feedback/${vacancy.id}`}>
+              <CardHeader>
+                <CardTitle className="line-clamp-2 scroll-m-20 text-2xl font-bold tracking-tight lg:text-3xl">
+                  {vacancy.title}
+                </CardTitle>
+                <CardDescription>
+                  Откликов: {vacancy.applications.length}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <article className="prose line-clamp-3">
+                  <ReactMarkdown>
+                    {vacancy.description.slice(0, 300)}
+                  </ReactMarkdown>
+                </article>
+              </CardContent>
+              <CardFooter>
+                <Badge>React</Badge>
+              </CardFooter>
+            </Link>
           </Card>
         ))}
       </div>

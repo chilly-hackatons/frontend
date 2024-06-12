@@ -1,4 +1,5 @@
 import './global.css'
+import 'easymde/dist/easymde.min.css'
 
 import { AuthProvider } from '@/app/providers/auth'
 import { WrapperComposer } from '@/shared/lib/ProviderList'

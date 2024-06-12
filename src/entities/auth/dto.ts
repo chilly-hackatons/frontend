@@ -5,29 +5,13 @@ interface Option {
   value: string
 }
 
-interface Job {
+export interface JobExperience {
   companyTitle: string
   aboutWork: string
   date: {
     from: string
     to: string
   }
-}
-
-export interface UserDto {
-  id: number
-  email: string
-  firstName: string
-  lastName: string
-  patronymic: string
-  about: string
-  avatar: string | null
-  jobExperience: Job[]
-  gitHubLink?: string
-  skills?: Option[]
-  companyName?: string
-  type: UserType
-  createdAt: string
 }
 
 export interface RefereshTokenDto {
@@ -48,6 +32,41 @@ export interface UserSignInDto {
 export interface UserSignUpDtoResponse {
   accessToken: string
   user: UserDto
+}
+
+interface User {
+  id: number
+  email: string
+  firstName: string
+  lastName: string
+  patronymic: string
+  about: string
+  avatar: string | null
+  jobExperience: JobExperience[]
+  type: UserType
+  createdAt: string
+}
+
+export interface UserCandidate extends User {
+  skills: Option[]
+  gitHubLink: string
+  status: 'APPROVED' | 'PENDING' | 'REJECTED'
+}
+
+export interface UserDto {
+  id: number
+  email: string
+  firstName: string
+  lastName: string
+  patronymic: string
+  about: string
+  avatar: string | null
+  jobExperience: JobExperience[]
+  gitHubLink?: string
+  skills?: Option[]
+  companyName?: string
+  type: UserType
+  createdAt: string
 }
 
 export interface UserSignUpDto {

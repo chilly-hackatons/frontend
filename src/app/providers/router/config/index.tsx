@@ -1,6 +1,7 @@
 import { RouteProps } from 'react-router-dom'
 
 import {
+  CandidatesFeedback,
   CandidatesPage,
   CreatePostPage,
   CreateVacancyPage,
@@ -25,6 +26,7 @@ enum AppRoutes {
   VACANCYS = 'vacancys',
   VACANCY_CREATE = 'createVacancy',
   VACANCIES_STATISTICS = 'vacanciesStatistics',
+  CANDIDATES_FEEDBACK = 'candidatesFeedback',
   SIGN_IN = 'signIn',
   SIGN_UP = 'signUp',
   NOTFOUND = 'notFound',
@@ -38,6 +40,7 @@ export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.VACANCY_CREATE]: '/vacancy-create',
   [AppRoutes.VACANCY]: '/vacancy/:id',
   [AppRoutes.VACANCIES_STATISTICS]: '/vacancies-statistics',
+  [AppRoutes.CANDIDATES_FEEDBACK]: '/candidates-feedback/:vacancyId',
   [AppRoutes.VACANCYS]: '/vacancys',
   [AppRoutes.PROFILE]: '/profile',
   [AppRoutes.SIGN_IN]: '/sign-in',
@@ -81,6 +84,10 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
   [AppRoutes.VACANCIES_STATISTICS]: {
     path: RoutePath.vacanciesStatistics,
     element: <VacanciesStatisticsPage />,
+  },
+  [AppRoutes.CANDIDATES_FEEDBACK]: {
+    path: RoutePath.candidatesFeedback,
+    element: <CandidatesFeedback />,
   },
   [AppRoutes.SIGN_IN]: {
     path: RoutePath.signIn,

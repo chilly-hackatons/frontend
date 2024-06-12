@@ -36,6 +36,14 @@ module.exports = {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
         },
+         success: {
+          DEFAULT: '#15803d',
+          foreground: '#f5f5f5',
+        },
+        waiting: {
+          DEFAULT: '#b45309',
+          foreground: '#f5f5f5',
+        },
         muted: {
           DEFAULT: 'hsl(var(--muted))',
           foreground: 'hsl(var(--muted-foreground))',
