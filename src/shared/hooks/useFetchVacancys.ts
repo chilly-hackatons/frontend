@@ -7,6 +7,7 @@ interface Vacancy {
   title: string
   description: string
   createdAt: string
+  tags: { label: string; value: string }[]
 }
 
 export const useFetchVacancys = (searchQuery?: string) => {

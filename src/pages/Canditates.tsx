@@ -24,8 +24,8 @@ const Canditates = () => {
           placeholder="Поиск"
         />
         <p className="text-sm text-muted-foreground pl-2 pt-2">
-          Поиск осуществляется по скиллам кандидата ( React, Frontend, Backend и
-          т.д )
+          Поиск осуществляется по скиллам кандидата ( React, Frontend
+          Development, Backend Development и т.д )
         </p>
       </div>
 

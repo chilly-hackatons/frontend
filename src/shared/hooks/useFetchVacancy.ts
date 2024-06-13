@@ -8,11 +8,12 @@ interface Vacancy {
   title: string
   description: string
   isRespondedToVacancy: boolean
+  tags: { label: string; value: string }[]
 }
 
 export const useFetchVacancy = (id: string | undefined) => {
   const { user } = useAuthUser()
-  const [vacancy, setVacancy] = useState<Vacancy>({} as Vacancy)
+  const [vacancy, setVacancy] = useState<Vacancy | null>(null)
   const [isLoading, setLoading] = useState(false)
 
   const fetchPosts = async () => {

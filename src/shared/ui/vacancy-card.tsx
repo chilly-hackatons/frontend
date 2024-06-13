@@ -17,11 +17,13 @@ interface VacancyCardProps {
   title: string
   description: string
   createdAt: string
+  tags: { label: string; value: string }[]
 }
 
 export const VacancyCard = ({
   description,
   title,
+  tags,
   createdAt,
 }: VacancyCardProps) => {
   return (
@@ -47,9 +49,11 @@ export const VacancyCard = ({
           </article>
         </CardContent>
         <CardFooter className="gap-2">
-          <Badge variant="default">react</Badge>
-          <Badge variant="default">react</Badge>
-          <Badge variant="default">react</Badge>
+          {tags.map((tag) => (
+            <Badge key={tag.value} variant="default">
+              {tag.label}
+            </Badge>
+          ))}
         </CardFooter>
       </Card>
     </div>

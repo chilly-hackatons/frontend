@@ -34,6 +34,16 @@ const CandidatesFeedback = () => {
     )
   }
 
+  if (feedbacks.length === 0) {
+    return (
+      <div className="container p-4 justify-center items-center flex animate-fade ">
+        <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+          🥺 Пока что никто не откликнулся на эту вакансию 🥺
+        </h3>
+      </div>
+    )
+  }
+
   return (
     <div className=" p-8 flex animate-fade gap-4">
       <div className="flex flex-col gap-4">

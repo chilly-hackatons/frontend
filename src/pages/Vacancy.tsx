@@ -5,10 +5,12 @@ import { useParams } from 'react-router-dom'
 import { useAuthUser } from '@/app/providers/auth'
 import { useFetchVacancy } from '@/shared/hooks/useFetchVacancy'
 import { baseApi } from '@/shared/lib/baseApi'
+import { Badge } from '@/shared/ui/badge'
 import { Button } from '@/shared/ui/button'
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -51,6 +53,10 @@ const Vacancy = () => {
     )
   }
 
+  if (!vacancy) {
+    return <div className="container p-4 animate-fade">Вакансия не найдена</div>
+  }
+
   return (
     <div className="container p-4 animate-fade">
       <Card>
@@ -58,6 +64,11 @@ const Vacancy = () => {
           <CardTitle className="scroll-m-20 text-2xl font-bold tracking-tight lg:text-3xl">
             {vacancy.title}
           </CardTitle>
+          <CardDescription className="flex gap-2 flex-wrap">
+            {vacancy.tags.map((tag) => (
+              <Badge key={tag.value}>{tag.label}</Badge>
+            ))}
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <article className="prose">
