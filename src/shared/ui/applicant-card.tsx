@@ -30,7 +30,9 @@ export const ApplicantCard = ({ ...props }: ApplicantCardProps) => {
           </div>
         </div>
       </div>
-      <div className="line-clamp-3 text-sm">{props.about.slice(0, 300)}</div>
+      <div className="line-clamp-3 text-sm w-full">
+        {props.about.slice(0, 300)}
+      </div>
       <div className="flex items-center gap-2 flex-wrap">
         {props.skills.map((skill) => (
           <Badge key={skill.value}>{skill.label}</Badge>
