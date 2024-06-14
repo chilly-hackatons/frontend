@@ -1,17 +1,47 @@
 import { Github } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Link } from 'react-router-dom'
 
 import { UserCandidate } from '@/entities/auth/dto'
 import { Badge } from '@/shared/ui/badge'
 import { JobExprecienceStory } from '@/shared/ui/job-experience-story'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/select'
 
 interface CandidatesFeedbackProps {
-  user: UserCandidate | null
+  user: UserCandidate
+  updateStatus: (
+    status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'ALL',
+    userId: number,
+  ) => void
 }
 
-export const CandidatesFeedbackInfo = ({ user }: CandidatesFeedbackProps) => {
-  if (!user) return null
+export const CandidatesFeedbackInfo = ({
+  user,
+  updateStatus,
+}: CandidatesFeedbackProps) => {
+  const [status, setStatus] = useState<
+    'PENDING' | 'APPROVED' | 'REJECTED' | 'ALL'
+  >(user.status)
+
+  console.log(user)
+
+  useEffect(() => {
+    setStatus(user.status)
+  }, [user])
+
+  const handleUpdateStatus = async (
+    status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'ALL',
+  ) => {
+    await updateStatus(status, user.id)
+    setStatus(status)
+  }
 
   return (
     <div className="border rounded-lg animate-fade w-full p-4 h-fit">
@@ -21,7 +51,29 @@ export const CandidatesFeedbackInfo = ({ user }: CandidatesFeedbackProps) => {
             {user.firstName} {user.lastName} {user.patronymic}
           </h4>
 
-          <div>
+          <div className="flex flex-wrap gap-4 items-center">
+            <Select
+              value={status}
+              onValueChange={(value: 'PENDING' | 'APPROVED' | 'REJECTED') =>
+                handleUpdateStatus(value)
+              }
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Статус" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="PENDING">
+                  <Badge variant="waiting">В ожидании</Badge>
+                </SelectItem>
+                <SelectItem value="APPROVED">
+                  <Badge variant="success">Одобрен</Badge>
+                </SelectItem>
+                <SelectItem value="REJECTED">
+                  <Badge variant="destructive">Отказ</Badge>
+                </SelectItem>
+              </SelectContent>
+            </Select>
+
             <Link target="_blank" to={user.gitHubLink}>
               <Github className="cursor-pointer" />
             </Link>
