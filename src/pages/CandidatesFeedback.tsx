@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
@@ -33,15 +34,23 @@ const CandidatesFeedback = () => {
   const updateStatus = async (
     status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'ALL',
     userId: number,
-  ) => {
+  ): Promise<
+    AxiosResponse<{ status: 'PENDING' | 'APPROVED' | 'REJECTED' }>
+  > => {
     try {
-      await baseApi.patch(`candidates/candidates-feedback/${vacancyId}`, {
-        status,
-        userId,
-      })
+      const response = await baseApi.patch(
+        `candidates/candidates-feedback/${vacancyId}`,
+        {
+          status,
+          userId,
+        },
+      )
       await refetch()
+
+      return response
     } catch (error) {
       console.log(error)
+      throw error
     }
   }
 
@@ -157,6 +166,7 @@ const CandidatesFeedback = () => {
 
       {selectedFeedback && !isFeedbacksEmpty && (
         <CandidatesFeedbackInfo
+          vacancyId={Number(vacancyId)}
           user={selectedFeedback}
           updateStatus={updateStatus}
         />

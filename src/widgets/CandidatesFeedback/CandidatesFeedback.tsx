@@ -1,9 +1,11 @@
+import { AxiosResponse } from 'axios'
 import { Github } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Link } from 'react-router-dom'
 
 import { UserCandidate } from '@/entities/auth/dto'
+import { baseApi } from '@/shared/lib/baseApi'
 import { Badge } from '@/shared/ui/badge'
 import { JobExprecienceStory } from '@/shared/ui/job-experience-story'
 import {
@@ -13,24 +15,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/ui/select'
+import { toast } from '@/shared/ui/use-toast'
 
 interface CandidatesFeedbackProps {
   user: UserCandidate
   updateStatus: (
     status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'ALL',
     userId: number,
-  ) => void
+  ) => Promise<AxiosResponse<{ status: 'PENDING' | 'APPROVED' | 'REJECTED' }>>
+  vacancyId: number
 }
 
 export const CandidatesFeedbackInfo = ({
   user,
   updateStatus,
+  vacancyId,
 }: CandidatesFeedbackProps) => {
   const [status, setStatus] = useState<
     'PENDING' | 'APPROVED' | 'REJECTED' | 'ALL'
   >(user.status)
-
-  console.log(user)
 
   useEffect(() => {
     setStatus(user.status)
@@ -39,8 +42,19 @@ export const CandidatesFeedbackInfo = ({
   const handleUpdateStatus = async (
     status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'ALL',
   ) => {
-    await updateStatus(status, user.id)
-    setStatus(status)
+    const response = await updateStatus(status, user.id)
+    setStatus(response.data.status)
+
+    await baseApi.post('/candidates/send-email', {
+      userId: user.id,
+      status: response.data.status,
+      vacancyId,
+    })
+
+    toast({
+      title: 'Статус кандидата обновлен',
+      description: 'Отправлено письмо на почту',
+    })
   }
 
   return (
