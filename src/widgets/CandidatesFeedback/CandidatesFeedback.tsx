@@ -42,19 +42,28 @@ export const CandidatesFeedbackInfo = ({
   const handleUpdateStatus = async (
     status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'ALL',
   ) => {
-    const response = await updateStatus(status, user.id)
-    setStatus(response.data.status)
+    try {
+      const response = await updateStatus(status, user.id)
+      setStatus(response.data.status)
 
-    await baseApi.post('/candidates/send-email', {
-      userId: user.id,
-      status: response.data.status,
-      vacancyId,
-    })
+      await baseApi.post('/candidates/send-email', {
+        userId: user.id,
+        status: response.data.status,
+        vacancyId,
+      })
 
-    toast({
-      title: 'Статус кандидата обновлен',
-      description: 'Отправлено письмо на почту',
-    })
+      toast({
+        title: 'Статус кандидата обновлен',
+        description: 'Отправлено письмо на почту',
+      })
+    } catch (error) {
+      console.log(error)
+      toast({
+        variant: 'destructive',
+        title: 'О нет',
+        description: 'Что то пошло не так',
+      })
+    }
   }
 
   return (
