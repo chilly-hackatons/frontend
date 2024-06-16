@@ -7,7 +7,7 @@ interface Post {
   title: string
   content: string
   createdAt: string
-  tags: { id: number; name: string }[]
+  tags: { value: string; label: string }[]
 }
 
 export const useFetchPosts = (searchQuery?: string) => {
