@@ -17,7 +17,7 @@ interface PostProps {
   title: string
   content: string
   createdAt: string
-  tags: { id: number; name: string }[]
+  tags: { value: string; label: string }[]
 }
 
 export const Post = ({ content, title, createdAt, tags }: PostProps) => {
@@ -45,8 +45,8 @@ export const Post = ({ content, title, createdAt, tags }: PostProps) => {
         </CardContent>
         <CardFooter className="gap-2 flex-wrap">
           {tags.map((tag) => (
-            <Badge key={tag.id} variant="default">
-              {tag.name}
+            <Badge key={tag.value} variant="default">
+              {tag.label}
             </Badge>
           ))}
         </CardFooter>
