@@ -35,6 +35,8 @@
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
     "easymde": "^2.18.0",
+    "effector": "^23.2.2",
+    "effector-react": "^23.2.1",
     "lucide-react": "^0.379.0",
     "react": "^18.2.0",
     "react-day-picker": "^8.10.1",
