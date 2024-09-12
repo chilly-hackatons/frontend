@@ -116,7 +116,7 @@ export const JobExpirience = ({ user }: JobExperienceProps) => {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[625px]">
+      <DialogContent className="sm:max-w-[625px] overflow-y-scroll max-h-screen">
         <DialogHeader>
           <DialogTitle>Добавить место работы</DialogTitle>
           <DialogDescription>

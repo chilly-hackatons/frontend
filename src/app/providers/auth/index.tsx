@@ -1,10 +1,9 @@
-import axios from 'axios'
 import { createContext, ReactNode, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { RoutePath } from '@/app/providers/router/config'
-import { RefereshTokenDto, UserDto } from '@/entities/auth/dto'
-import { urlApi } from '@/shared/lib/baseApi'
+import { refreshToken } from '@/entities/auth/api'
+import { UserDto } from '@/entities/auth/dto'
 
 interface AuthContextProps {
   user: UserDto
@@ -48,16 +47,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const checkAuthUser = async () => {
     setLoading(true)
     try {
-      const response = await axios.post<RefereshTokenDto>(
-        `${urlApi}/auth/refresh`,
-        {},
-        {
-          headers: {
-            'Secret-Access-Token': import.meta.env.VITE_BASE_AUTH_KEY,
-          },
-          withCredentials: true,
-        },
-      )
+      const response = await refreshToken()
       localStorage.setItem('token', response.data.accessToken)
       setUser(response.data.user)
       setIsAuthenticated(true)

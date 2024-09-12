@@ -36,7 +36,7 @@ const formSchemaApplicant = z.object({
     .min(50, {
       message: 'Должно быть не менее 50 символов',
     })
-    .max(450),
+    .max(1450),
 })
 
 const formSchemaRecruiter = z.object({

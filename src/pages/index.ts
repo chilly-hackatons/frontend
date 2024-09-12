@@ -11,7 +11,7 @@ export const CreateVacancyPage = lazy(() => import('./CreateVacancy'))
 export const ProfilePage = lazy(() => import('./Profile'))
 export const CandidateProfilePage = lazy(() => import('./CandidateProfile'))
 export const SignUpPage = lazy(() => import('./SignUp/SignUp'))
-export const SignInPage = lazy(() => import('./SignIn'))
+export const SignInPage = lazy(() => import('./SignIn/SignIn'))
 export const ErrorPage = lazy(() => import('./Error'))
 export const VacanciesStatisticsPage = lazy(
   () => import('./VacanciesStatistics'),
